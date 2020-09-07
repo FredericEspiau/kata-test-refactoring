@@ -30,6 +30,16 @@ expect.extend({
   },
 });
 
+let testObjects: unknown[];
+
+beforeEach(() => {
+  testObjects = [];
+});
+
+const registerTestObject = (o: unknown): void => {
+  testObjects.push(o);
+};
+
 it("add item quantity, several quantity", () => {
   let billingAddress: Address | null = null;
   let shippingAddress: Address | null = null;
@@ -37,50 +47,56 @@ it("add item quantity, several quantity", () => {
   let product: Product | null = null;
   let invoice: Invoice | null = null;
 
-  try {
-    //   Set up fixture
-    billingAddress = new Address(
-      "1222 1st St SW",
-      "Calgary",
-      "Alberta",
-      "T2N 2V2",
-      "Canada"
-    );
-    shippingAddress = new Address(
-      "1333 1st St SW",
-      "Calgary",
-      "Alberta",
-      "T2N 2V2",
-      "Canada"
-    );
-    customer = new Customer(
-      99,
-      "John",
-      "Doe",
-      30,
-      billingAddress,
-      shippingAddress
-    );
-    product = new Product(88, "SomeWidget", 19.99);
-    invoice = new Invoice(customer);
+  //   Set up fixture
+  billingAddress = new Address(
+    "1222 1st St SW",
+    "Calgary",
+    "Alberta",
+    "T2N 2V2",
+    "Canada"
+  );
+  registerTestObject(billingAddress);
+  shippingAddress = new Address(
+    "1333 1st St SW",
+    "Calgary",
+    "Alberta",
+    "T2N 2V2",
+    "Canada"
+  );
+  registerTestObject(shippingAddress);
+  customer = new Customer(
+    99,
+    "John",
+    "Doe",
+    30,
+    billingAddress,
+    shippingAddress
+  );
+  registerTestObject(customer);
+  product = new Product(88, "SomeWidget", 19.99);
+  registerTestObject(product);
+  invoice = new Invoice(customer);
+  registerTestObject(invoice);
 
-    // Exercise SUT
-    invoice.addItemQuantity(product, 5); // Verify outcome
-    const expected: LineItem = new LineItem(
-      invoice,
-      product,
-      5,
-      30,
-      19.99,
-      69.96
-    );
-    expect(invoice).uniqueItemToBe(expected);
-  } finally {
-    // Teardown
-    deleteObject(invoice);
-    deleteObject(product);
-    deleteObject(customer);
-    deleteObject(billingAddress);
-    deleteObject(shippingAddress);
-  }
+  // Exercise SUT
+  invoice.addItemQuantity(product, 5); // Verify outcome
+  const expected: LineItem = new LineItem(
+    invoice,
+    product,
+    5,
+    30,
+    19.99,
+    69.96
+  );
+  expect(invoice).uniqueItemToBe(expected);
+});
+
+afterEach(() => {
+  testObjects.forEach((o) => {
+    try {
+      deleteObject(o);
+    } catch (e) {
+      // nothing to do
+    }
+  });
 });
