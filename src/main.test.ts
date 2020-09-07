@@ -41,14 +41,8 @@ const registerTestObject = (o: unknown): void => {
 };
 
 it("add item quantity, several quantity", () => {
-  let billingAddress: Address | null = null;
-  let shippingAddress: Address | null = null;
-  let customer: Customer | null = null;
-  let product: Product | null = null;
-  let invoice: Invoice | null = null;
-
   //   Set up fixture
-  billingAddress = new Address(
+  const billingAddress = new Address(
     "1222 1st St SW",
     "Calgary",
     "Alberta",
@@ -56,7 +50,7 @@ it("add item quantity, several quantity", () => {
     "Canada"
   );
   registerTestObject(billingAddress);
-  shippingAddress = new Address(
+  const shippingAddress = new Address(
     "1333 1st St SW",
     "Calgary",
     "Alberta",
@@ -64,7 +58,7 @@ it("add item quantity, several quantity", () => {
     "Canada"
   );
   registerTestObject(shippingAddress);
-  customer = new Customer(
+  const customer = new Customer(
     99,
     "John",
     "Doe",
@@ -73,9 +67,9 @@ it("add item quantity, several quantity", () => {
     shippingAddress
   );
   registerTestObject(customer);
-  product = new Product(88, "SomeWidget", 19.99);
+  const product = new Product(88, "SomeWidget", 19.99);
   registerTestObject(product);
-  invoice = new Invoice(customer);
+  const invoice = new Invoice(customer);
   registerTestObject(invoice);
 
   // Exercise SUT
