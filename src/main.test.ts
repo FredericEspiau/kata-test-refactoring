@@ -80,14 +80,14 @@ const createInvoice = (customer: Customer): Invoice => {
 const createAnAddress = () =>
   createAddress("1333 1st St SW", "Calgary", "Alberta", "T2N 2V2", "Canada");
 
-const createACustomer = (points: number, billing: Address, shipping: Address) =>
+const createACustomer = (points: number) =>
   createCustomer(
     Number.generate(),
     NameGenerator.generate(),
     NameGenerator.generate(),
     points,
-    billing,
-    shipping
+    createAnAddress(),
+    createAnAddress()
   );
 
 const createAProduct = (price: number) =>
@@ -95,9 +95,7 @@ const createAProduct = (price: number) =>
 
 it("add item quantity, several quantity", () => {
   // Set up fixture
-  const billingAddress = createAnAddress();
-  const shippingAddress = createAnAddress();
-  const customer = createACustomer(30, billingAddress, shippingAddress);
+  const customer = createACustomer(30);
   const product = createAProduct(19.99);
   const invoice = createInvoice(customer);
 
