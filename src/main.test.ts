@@ -48,13 +48,21 @@ it("add item quantity, several quantity", () => {
     const lineItems: LineItem[] = invoice.lineItems;
 
     if (lineItems.length == 1) {
+      const expected: LineItem = new LineItem(
+        invoice,
+        product,
+        5,
+        30,
+        19.99,
+        69.96
+      );
       const actItem: LineItem = lineItems[0];
-      expect(invoice).toBe(actItem.invoice);
-      expect(product).toBe(actItem.product);
-      expect(5).toBe(actItem.quantity);
-      expect(30).toBe(actItem.percentDiscount);
-      expect(19.99).toBe(actItem.unitPrice);
-      expect(69.96).toBe(actItem.extendedPrice);
+      expect(expected.invoice).toBe(actItem.invoice);
+      expect(expected.product).toBe(actItem.product);
+      expect(expected.quantity).toBe(actItem.quantity);
+      expect(expected.percentDiscount).toBe(actItem.percentDiscount);
+      expect(expected.unitPrice).toBe(actItem.unitPrice);
+      expect(expected.extendedPrice).toBe(actItem.extendedPrice);
     } else {
       fail("Invoice should have 1 item");
     }
