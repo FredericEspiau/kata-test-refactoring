@@ -40,25 +40,60 @@ const registerTestObject = (o: unknown): void => {
   testObjects.push(o);
 };
 
+const createAddress = (
+  streetName: string,
+  first: string,
+  second: string,
+  address: string,
+  country: string
+): Address => {
+  const a = new Address(streetName, first, second, address, country);
+  registerTestObject(a);
+  return a;
+};
+
+const createCustomer = (
+  id: number,
+  firstName: string,
+  secondName: string,
+  points: number,
+  billing: Address,
+  shipping: Address
+): Customer => {
+  const c = new Customer(id, firstName, secondName, points, billing, shipping);
+  registerTestObject(c);
+  return c;
+};
+
+const createProduct = (id: number, name: string, price: number): Product => {
+  const p = new Product(id, name, price);
+  registerTestObject(p);
+  return p;
+};
+
+const createInvoice = (customer: Customer): Invoice => {
+  const i = new Invoice(customer);
+  registerTestObject(i);
+  return i;
+};
+
 it("add item quantity, several quantity", () => {
   //   Set up fixture
-  const billingAddress = new Address(
+  const billingAddress = createAddress(
     "1222 1st St SW",
     "Calgary",
     "Alberta",
     "T2N 2V2",
     "Canada"
   );
-  registerTestObject(billingAddress);
-  const shippingAddress = new Address(
+  const shippingAddress = createAddress(
     "1333 1st St SW",
     "Calgary",
     "Alberta",
     "T2N 2V2",
     "Canada"
   );
-  registerTestObject(shippingAddress);
-  const customer = new Customer(
+  const customer = createCustomer(
     99,
     "John",
     "Doe",
@@ -66,11 +101,8 @@ it("add item quantity, several quantity", () => {
     billingAddress,
     shippingAddress
   );
-  registerTestObject(customer);
-  const product = new Product(88, "SomeWidget", 19.99);
-  registerTestObject(product);
-  const invoice = new Invoice(customer);
-  registerTestObject(invoice);
+  const product = createProduct(88, "SomeWidget", 19.99);
+  const invoice = createInvoice(customer);
 
   // Exercise SUT
   invoice.addItemQuantity(product, 5); // Verify outcome
