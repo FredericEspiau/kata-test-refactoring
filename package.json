@@ -1,6 +1,6 @@
 {
   "name": "kata-test-refactoring",
-  "version": "3.0.0",
+  "version": "1.0.0",
   "description": "Kata for training refactoring tests",
   "scripts": {
     "start": "ts-node src/main.ts",
