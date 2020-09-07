@@ -77,35 +77,34 @@ const createInvoice = (customer: Customer): Invoice => {
   return i;
 };
 
+const createAnAddress = () =>
+  createAddress("1333 1st St SW", "Calgary", "Alberta", "T2N 2V2", "Canada");
+
+const createACustomer = (points: number, billing: Address, shipping: Address) =>
+  createCustomer(
+    Number.generate(),
+    NameGenerator.generate(),
+    NameGenerator.generate(),
+    points,
+    billing,
+    shipping
+  );
+
+const createAProduct = (price: number) =>
+  createProduct(Number.generate(), NameGenerator.generate(), price);
+
 it("add item quantity, several quantity", () => {
-  //   Set up fixture
-  const billingAddress = createAddress(
-    "1222 1st St SW",
-    "Calgary",
-    "Alberta",
-    "T2N 2V2",
-    "Canada"
-  );
-  const shippingAddress = createAddress(
-    "1333 1st St SW",
-    "Calgary",
-    "Alberta",
-    "T2N 2V2",
-    "Canada"
-  );
-  const customer = createCustomer(
-    99,
-    "John",
-    "Doe",
-    30,
-    billingAddress,
-    shippingAddress
-  );
-  const product = createProduct(88, "SomeWidget", 19.99);
+  // Set up fixture
+  const billingAddress = createAnAddress();
+  const shippingAddress = createAnAddress();
+  const customer = createACustomer(30, billingAddress, shippingAddress);
+  const product = createAProduct(19.99);
   const invoice = createInvoice(customer);
 
   // Exercise SUT
-  invoice.addItemQuantity(product, 5); // Verify outcome
+  invoice.addItemQuantity(product, 5);
+
+  // Verify outcome
   const expected: LineItem = new LineItem(
     invoice,
     product,
