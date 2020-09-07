@@ -107,7 +107,8 @@ it("add item quantity, several quantity", () => {
   invoice.addItemQuantity(product, quantity);
 
   // Verify outcome
-  const extendedPrice = 69.96;
+  const extendedPrice =
+    priceForOneProduct * quantity - priceForOneProduct / customerPoints;
   const expected: LineItem = new LineItem(
     invoice,
     product,
