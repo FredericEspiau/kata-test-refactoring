@@ -7,6 +7,29 @@ import { LineItem } from "./line-item";
 
 const deleteObject = (a: unknown) => a;
 
+expect.extend({
+  uniqueItemToBe(received: unknown[], expected) {
+    if (received.length !== 1) {
+      return {
+        message: () => `length should be 1`,
+        pass: false,
+      };
+    }
+
+    if (received[0] !== expected) {
+      return {
+        message: () => `items are not the same`,
+        pass: false,
+      };
+    }
+
+    return {
+      message: () => `everything is ok`,
+      pass: true,
+    };
+  },
+});
+
 it("add item quantity, several quantity", () => {
   let billingAddress: Address | null = null;
   let shippingAddress: Address | null = null;
@@ -43,10 +66,6 @@ it("add item quantity, several quantity", () => {
 
     // Exercise SUT
     invoice.addItemQuantity(product, 5); // Verify outcome
-    const lineItems: LineItem[] = invoice.lineItems;
-
-    expect(lineItems.length).toBe(1);
-
     const expected: LineItem = new LineItem(
       invoice,
       product,
@@ -55,8 +74,7 @@ it("add item quantity, several quantity", () => {
       19.99,
       69.96
     );
-    const actual: LineItem = lineItems[0];
-    expect(actual).toStrictEqual(expected);
+    expect(invoice).uniqueItemToBe(expected);
   } finally {
     // Teardown
     deleteObject(invoice);
