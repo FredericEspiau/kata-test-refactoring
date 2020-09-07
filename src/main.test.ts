@@ -7,6 +7,8 @@ import { LineItem } from "./line-item";
 
 const deleteObject = (a: unknown) => a;
 
+const fail = (text: string) => expect(text).not.toEqual(text);
+
 it("add item quantity, several quantity", () => {
   let billingAddress: Address | null = null;
   let shippingAddress: Address | null = null;
@@ -54,9 +56,7 @@ it("add item quantity, several quantity", () => {
       expect(19.99).toBe(actItem.unitPrice);
       expect(69.96).toBe(actItem.extendedPrice);
     } else {
-      expect("Invoice should have 1 item").not.toEqual(
-        "Invoice should have 1 item"
-      );
+      fail("Invoice should have 1 item");
     }
   } finally {
     // Teardown
