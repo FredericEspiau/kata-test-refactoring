@@ -94,22 +94,27 @@ const createAProduct = (price: number) =>
   createProduct(Number.generate(), NameGenerator.generate(), price);
 
 it("add item quantity, several quantity", () => {
+  const quantity = 5;
+  const customerPoints = 30;
+  const priceForOneProduct = 19.99;
+
   // Set up fixture
-  const customer = createACustomer(30);
-  const product = createAProduct(19.99);
+  const customer = createACustomer(customerPoints);
+  const product = createAProduct(priceForOneProduct);
   const invoice = createInvoice(customer);
 
   // Exercise SUT
-  invoice.addItemQuantity(product, 5);
+  invoice.addItemQuantity(product, quantity);
 
   // Verify outcome
+  const extendedPrice = 69.96;
   const expected: LineItem = new LineItem(
     invoice,
     product,
-    5,
-    30,
-    19.99,
-    69.96
+    quantity,
+    customerPoints,
+    priceForOneProduct,
+    extendedPrice
   );
   expect(invoice).uniqueItemToBe(expected);
 });
