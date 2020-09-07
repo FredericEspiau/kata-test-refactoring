@@ -56,13 +56,8 @@ it("add item quantity, several quantity", () => {
         19.99,
         69.96
       );
-      const actItem: LineItem = lineItems[0];
-      expect(expected.invoice).toBe(actItem.invoice);
-      expect(expected.product).toBe(actItem.product);
-      expect(expected.quantity).toBe(actItem.quantity);
-      expect(expected.percentDiscount).toBe(actItem.percentDiscount);
-      expect(expected.unitPrice).toBe(actItem.unitPrice);
-      expect(expected.extendedPrice).toBe(actItem.extendedPrice);
+      const actual: LineItem = lineItems[0];
+      expect(actual).toStrictEqual(expected);
     } else {
       fail("Invoice should have 1 item");
     }
